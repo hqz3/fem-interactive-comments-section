@@ -1,10 +1,12 @@
-import { CommentType } from "./App";
+import { User, CommentType } from "./App";
 
 export class Comment {
   element: HTMLElement;
+  currentUser: User;
   comment: CommentType;
 
-  constructor(comment: CommentType) {
+  constructor(currentUser: User, comment: CommentType) {
+    this.currentUser = currentUser;
     this.comment = comment;
 
     this.element = document.createElement("div");
