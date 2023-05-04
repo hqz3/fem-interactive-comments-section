@@ -56,12 +56,12 @@ button {
 
 .comments {
   color: var(--grayish-blue);
+  padding: 1rem;
 }
 
 .comment {
-  background-color: var(--white);
   border-radius: var(--border-radius);
-
+  background-color: var(--white);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 
@@ -91,13 +91,12 @@ button {
   margin: 2rem 0;
 }
 
-.vote {
+.comment__vote {
   background-color: var(--very-light-gray);
   border-radius: var(--border-radius);
 
   display: flex;
   align-items: center;
-
   justify-self: start;
 }
 
@@ -117,12 +116,12 @@ button {
 }
 
 .vote__score,
-.reply__button {
+.comment__reply-button {
   color: var(--moderate-blue);
   font-weight: 500;
 }
 
-.reply {
+.comment__reply {
   cursor: pointer;
 
   display: flex;
@@ -170,8 +169,11 @@ button {
   filter: opacity(50%);
 }
 
-.replies {
-  border: 1px solid orange;
-  margin-top: 2rem;
-  margin-left: 2rem;
+.replies__container {
+  border-left: 1px solid var(--dark-blue);
+}
+
+.reply {
+  margin-left: auto;
+  width: 95%;
 }

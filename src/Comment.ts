@@ -1,39 +1,31 @@
 import { User, CommentType } from "./App";
+import { Reply } from "./Reply";
+import { generateCommentElement } from "../utils/generateCommentElement";
 
 export class Comment {
-  element: HTMLElement;
   currentUser: User;
   comment: CommentType;
+  commentEl: HTMLElement;
+  repliesContainerEl: HTMLElement;
 
   constructor(currentUser: User, comment: CommentType) {
     this.currentUser = currentUser;
     this.comment = comment;
 
-    this.element = document.createElement("div");
-    this.element.classList.add("comment");
+    this.commentEl = generateCommentElement(comment);
 
-    this.element.innerHTML = `
-          <div class="comment__user">
-            <img
-              class="comment__user-image"
-              src=${comment.user.image.png}
-              alt=${comment.user.username}
-            />
-            <span class="comment__username">${comment.user.username}</span>
-            <span class="comment__createdAt">${comment.createdAt}</span>
-          </div>
-          <p class="comment__text">
-            ${comment.content}
-          </p>
-          <div class="vote">
-            <button class="vote__upvote" aria-label='Upvote'>+</button>
-            <span class="vote__score" aria-label='Score'>${comment.score}</span>
-            <button class="vote__downvote" aria-label='Downvote'>-</button>
-          </div>
-          <div class="reply">
-            <img src="images/icon-reply.svg" alt="Reply" />
-            <button class="reply__button" aria-label='Reply'>Reply</button>
-          </div>
-    `;
+    // Create a container for replies that may or may be empty
+    this.repliesContainerEl = document.createElement("div");
+    this.repliesContainerEl.classList.add("replies__container");
+    this.commentEl.appendChild(this.repliesContainerEl);
+
+    this.loadReplies();
+  }
+
+  loadReplies() {
+    this.comment.replies?.map((reply) => {
+      const node = new Reply(this.currentUser, reply);
+      this.repliesContainerEl.appendChild(node.replyEl);
+    });
   }
 }
