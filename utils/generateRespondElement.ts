@@ -4,10 +4,6 @@ export const generateRespondElement = (currentUser: User) => {
   const element = document.createElement("form") as HTMLFormElement;
   element.classList.add("comment__container", "respond");
 
-  element.addEventListener("submit", (e) => {
-    e.preventDefault();
-  });
-
   element.innerHTML = `
   <textarea
     class="respond__textarea"
