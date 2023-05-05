@@ -2,7 +2,7 @@
 
 :root {
   --moderate-blue: hsl(238, 40%, 52%);
-  --soft-Red: hsl(358, 79%, 66%);
+  --soft-red: hsl(358, 79%, 66%);
   --light-grayish-blue: hsl(239, 57%, 85%);
   --pale-red: hsl(357, 100%, 86%);
 
@@ -54,14 +54,14 @@ button {
   font-size: 1.6rem;
 }
 
-.comments {
+.allComments {
   color: var(--grayish-blue);
-  padding: 1rem;
 }
 
-.comment {
-  border-radius: var(--border-radius);
+.comment__container {
   background-color: var(--white);
+  border-radius: var(--border-radius);
+
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 
@@ -72,8 +72,9 @@ button {
 .comment__user {
   display: flex;
   align-items: center;
+
   gap: 1.5rem;
-  grid-column: 1/-1;
+  grid-column: 1 / -1;
 }
 
 .comment__username {
@@ -81,12 +82,19 @@ button {
   font-weight: 500;
 }
 
+.comment__you {
+  background-color: var(--moderate-blue);
+  color: var(--white);
+  font-size: 1.2rem;
+  padding: 0.2rem 0.75rem;
+}
+
 .comment__user-image {
   width: 3.5rem;
 }
 
 .comment__text {
-  grid-column: 1/-1;
+  grid-column: 1 / -1;
   line-height: 2.4rem;
   margin: 2rem 0;
 }
@@ -116,19 +124,44 @@ button {
 }
 
 .vote__score,
-.comment__reply-button {
+.comment__reply-button,
+.comment__delete-button,
+.comment__edit-button {
   color: var(--moderate-blue);
   font-weight: 500;
 }
 
 .comment__reply {
-  cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-self: end;
-
   gap: 1rem;
+}
+
+/* Delete and Edit buttons */
+.comment__options {
+  display: flex;
+  justify-self: end;
+  gap: 2rem;
+}
+
+.comment__delete,
+.comment__edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.comment__delete-button {
+  color: var(--soft-red);
+}
+
+.comment__reply:hover,
+.comment__delete:hover,
+.comment__edit:hover {
+  cursor: pointer;
+  filter: opacity(50%);
 }
 
 .respond__textarea {

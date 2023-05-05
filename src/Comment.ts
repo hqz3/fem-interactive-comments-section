@@ -1,22 +1,34 @@
 import { User, CommentType } from "./App";
 import { Reply } from "./Reply";
-import { generateCommentElement } from "../utils/generateCommentElement";
+import { createElement } from "../utils/createElement";
+import { generateCommentElements } from "../utils/generateCommentElements";
 
 export class Comment {
   currentUser: User;
   comment: CommentType;
+  upvoted: boolean;
+  downvoted: boolean;
+
   commentEl: HTMLElement;
+  commentContainerEl: HTMLElement;
   repliesContainerEl: HTMLElement;
 
   constructor(currentUser: User, comment: CommentType) {
     this.currentUser = currentUser;
     this.comment = comment;
+    this.upvoted = false;
+    this.downvoted = false;
 
-    this.commentEl = generateCommentElement(comment);
+    this.commentEl = createElement("comment");
+    this.commentContainerEl = createElement("comment__container");
+    this.repliesContainerEl = createElement("replies__container");
 
-    // Create a container for replies that may or may be empty
-    this.repliesContainerEl = document.createElement("div");
-    this.repliesContainerEl.classList.add("replies__container");
+    this.commentContainerEl.innerHTML = generateCommentElements(
+      this.currentUser,
+      this.comment
+    );
+
+    this.commentEl.appendChild(this.commentContainerEl);
     this.commentEl.appendChild(this.repliesContainerEl);
 
     this.loadReplies();
