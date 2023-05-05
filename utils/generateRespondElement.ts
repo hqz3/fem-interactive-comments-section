@@ -2,7 +2,7 @@ import { User } from "../src/App";
 
 export const generateRespondElement = (currentUser: User) => {
   const element = document.createElement("form") as HTMLFormElement;
-  element.classList.add("comment", "respond");
+  element.classList.add("comment__container", "respond");
 
   element.addEventListener("submit", (e) => {
     e.preventDefault();
