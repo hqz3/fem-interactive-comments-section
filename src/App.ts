@@ -29,31 +29,32 @@ export type Image = {
 
 export class App {
   app: HTMLElement;
-  data: Data;
+
   currentUser: User;
   comments: CommentType[];
+  commentInstances: { [key: number]: Comment };
 
-  commentsEl: HTMLElement;
+  allCommentsEl: HTMLElement;
   respondEl: HTMLElement;
 
   constructor() {
     this.app = document.getElementById("app") as HTMLElement;
-    this.data = serverData;
     this.currentUser = serverData.currentUser;
     this.comments = serverData.comments;
+    this.commentInstances = {};
 
-    this.commentsEl = document.createElement("main") as HTMLElement;
-    this.commentsEl.classList.add("comments");
-    this.app.appendChild(this.commentsEl);
+    this.allCommentsEl = document.querySelector(".allComments") as HTMLElement;
 
     this.respondEl = generateRespondElement(this.currentUser);
-    this.commentsEl.appendChild(this.respondEl);
+    this.allCommentsEl.appendChild(this.respondEl);
   }
 
-  load() {
+  render() {
     this.comments.forEach((comment) => {
-      const node = new Comment(this.currentUser, comment);
-      this.commentsEl.insertBefore(node.commentEl, this.respondEl);
+      const instance = new Comment(this.currentUser, comment);
+      this.commentInstances[comment.id] = instance;
+
+      this.allCommentsEl.insertBefore(instance.commentEl, this.respondEl);
     });
   }
 }
