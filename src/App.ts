@@ -32,7 +32,6 @@ export class App {
 
   currentUser: User;
   comments: CommentType[];
-  commentInstances: { [key: number]: Comment };
 
   allCommentsEl: HTMLElement;
   respondEl: HTMLElement;
@@ -41,20 +40,46 @@ export class App {
     this.app = document.getElementById("app") as HTMLElement;
     this.currentUser = serverData.currentUser;
     this.comments = serverData.comments;
-    this.commentInstances = {};
 
     this.allCommentsEl = document.querySelector(".allComments") as HTMLElement;
 
     this.respondEl = generateRespondElement(this.currentUser);
+    this.respondEl.addEventListener("submit", (e: Event) => {
+      e.preventDefault();
+      const target = e.target as HTMLFormElement;
+      const text = target.text.value;
+      this.addComment(text);
+      target.text.value = "";
+    });
+
     this.allCommentsEl.appendChild(this.respondEl);
   }
 
   render() {
     this.comments.forEach((comment) => {
       const instance = new Comment(this.currentUser, comment);
-      this.commentInstances[comment.id] = instance;
-
       this.allCommentsEl.insertBefore(instance.commentEl, this.respondEl);
     });
+  }
+
+  addComment(text: string) {
+    if (!text.length) return;
+
+    const newComment = {
+      id: Date.now(),
+      user: this.currentUser,
+      createdAt: "Just now",
+      content: text,
+      score: 0,
+      replies: [],
+    };
+
+    const instance = new Comment(this.currentUser, newComment);
+    instance.commentEl.classList.add("comment__new-comment");
+    setTimeout(() => {
+      instance.commentEl.classList.remove("comment__new-comment");
+    }, 500);
+
+    this.allCommentsEl.insertBefore(instance.commentEl, this.respondEl);
   }
 }
