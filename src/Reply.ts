@@ -2,6 +2,7 @@ import { User, CommentType } from "./App";
 import { createElement } from "../utils/createElement";
 import { generateCommentElements } from "../utils/generateCommentElements";
 import { generateRespondElement } from "../utils/generateRespondElement";
+import { generateNewReply } from "../utils/generateNewReply";
 
 export class Reply {
   currentUser: User;
@@ -24,6 +25,8 @@ export class Reply {
     this.renderReply();
 
     this.replyContainerEl.addEventListener("click", (e: Event) => {
+      e.stopPropagation();
+
       const target = e.target as HTMLElement;
       if (target.classList.contains("vote__upvote") && this.vote <= 0) {
         this.reply.score += 1;
@@ -36,15 +39,7 @@ export class Reply {
         this.reply.score -= 1;
         this.vote -= 1;
         this.renderReply();
-      }
-    });
-
-    const replyButton = this.replyContainerEl.querySelector(
-      ".comment__reply"
-    ) as HTMLElement;
-
-    if (replyButton) {
-      replyButton.addEventListener("click", (e) => {
+      } else if (target.classList.contains("comment__reply")) {
         if (this.replyPanel) return this.removeReplyPanel();
 
         const replyPanel = this.showReplyPanel();
@@ -52,11 +47,11 @@ export class Reply {
           e.preventDefault();
           const target = e.target as HTMLFormElement;
           const text = target.text.value;
-          this.addReply(text);
+          this.addSubReply(text);
           this.removeReplyPanel();
         });
-      });
-    }
+      }
+    });
   }
 
   renderReply() {
@@ -67,7 +62,11 @@ export class Reply {
   }
 
   showReplyPanel() {
-    this.replyPanel = generateRespondElement(this.currentUser, "Reply");
+    this.replyPanel = generateRespondElement(
+      this.currentUser,
+      "Reply",
+      this.reply
+    );
     this.replyPanel.classList.add("slideDown");
     this.replyContainerEl.insertAdjacentElement("afterend", this.replyPanel);
     return this.replyPanel;
@@ -80,25 +79,18 @@ export class Reply {
     }
   }
 
-  addReply(reply: string) {
+  addSubReply(reply: string) {
     if (!reply.length) return;
-
-    const newReply = {
-      id: Date.now(),
-      user: this.currentUser,
-      createdAt: "Just now",
-      content: reply,
-      score: 0,
-      replies: [],
-    };
-
+    const newReply = generateNewReply(this.currentUser, reply);
     const instance = new Reply(this.currentUser, newReply);
+
     if (this.replyEl && this.replyEl.parentNode) {
       (this.replyEl.parentNode as HTMLElement).insertAdjacentElement(
         "beforeend",
         instance.replyEl
       );
       instance.replyEl.classList.add("slideDown");
+
       setTimeout(() => {
         instance.replyEl.classList.remove("slideDown");
       }, 500);

@@ -159,7 +159,10 @@ button {
   align-items: center;
   justify-self: end;
   gap: 1rem;
-  /* position: relative; */
+}
+
+.comment__reply > * {
+  pointer-events: none;
 }
 
 /* Delete and Edit buttons */
