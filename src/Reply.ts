@@ -45,11 +45,12 @@ export class Reply {
         const replyPanel = this.showReplyPanel();
         replyPanel.addEventListener("submit", (e) => {
           e.preventDefault();
-          const target = e.target as HTMLFormElement;
-          const text = target.text.value;
+          const text = (e.target as HTMLFormElement).text.value;
           this.addSubReply(text);
           this.removeReplyPanel();
         });
+      } else if (target.classList.contains("comment__delete")) {
+        (e.target as HTMLElement)?.closest(".comment")?.remove();
       }
     });
   }
@@ -84,16 +85,11 @@ export class Reply {
     const newReply = generateNewReply(this.currentUser, reply);
     const instance = new Reply(this.currentUser, newReply);
 
-    if (this.replyEl && this.replyEl.parentNode) {
-      (this.replyEl.parentNode as HTMLElement).insertAdjacentElement(
-        "beforeend",
-        instance.replyEl
-      );
+    if (this.replyEl.closest(".replies__container")) {
+      (
+        this.replyEl.closest(".replies__container") as HTMLElement
+      ).insertAdjacentElement("beforeend", instance.replyEl);
       instance.replyEl.classList.add("slideDown");
-
-      setTimeout(() => {
-        instance.replyEl.classList.remove("slideDown");
-      }, 500);
     }
   }
 }

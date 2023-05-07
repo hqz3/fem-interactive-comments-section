@@ -180,6 +180,11 @@ button {
   gap: 1rem;
 }
 
+.comment__delete > *,
+.comment__edit > * {
+  pointer-events: none;
+}
+
 .comment__delete-button {
   color: var(--soft-red);
 }

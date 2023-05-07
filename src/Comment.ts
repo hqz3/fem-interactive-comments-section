@@ -47,17 +47,17 @@ export class Comment {
         this.vote -= 1;
         this.renderUserComment();
       } else if (target.classList.contains("comment__reply")) {
-        // Toggle reply panel
         if (this.replyPanel) return this.removeReplyPanel();
 
         const replyPanel = this.showReplyPanel();
         replyPanel.addEventListener("submit", (e) => {
           e.preventDefault();
-          const target = e.target as HTMLFormElement;
-          const text = target.text.value;
+          const text = (e.target as HTMLFormElement).text.value;
           this.addReply(text);
           this.removeReplyPanel();
         });
+      } else if (target.classList.contains("comment__delete")) {
+        (e.target as HTMLElement)?.closest(".comment")?.remove();
       }
     });
   }
@@ -102,11 +102,7 @@ export class Comment {
     const newReply = generateNewReply(this.currentUser, reply);
     const instance = new Reply(this.currentUser, newReply);
 
-    instance.replyEl.classList.add("slideDown");
     this.repliesContainerEl.appendChild(instance.replyEl);
-
-    setTimeout(() => {
-      instance.replyEl.classList.remove("slideDown");
-    }, 500);
+    instance.replyEl.classList.add("slideDown");
   }
 }
