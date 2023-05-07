@@ -43,7 +43,7 @@ export class App {
 
     this.allCommentsEl = document.querySelector(".allComments") as HTMLElement;
 
-    this.respondEl = generateRespondElement(this.currentUser);
+    this.respondEl = generateRespondElement(this.currentUser, "Send");
     this.respondEl.addEventListener("submit", (e: Event) => {
       e.preventDefault();
       const target = e.target as HTMLFormElement;
@@ -75,9 +75,9 @@ export class App {
     };
 
     const instance = new Comment(this.currentUser, newComment);
-    instance.commentEl.classList.add("comment__new-comment");
+    instance.commentEl.classList.add("slideDown");
     setTimeout(() => {
-      instance.commentEl.classList.remove("comment__new-comment");
+      instance.commentEl.classList.remove("slideDown");
     }, 500);
 
     this.allCommentsEl.insertBefore(instance.commentEl, this.respondEl);
