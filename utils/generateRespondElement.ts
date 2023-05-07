@@ -8,7 +8,6 @@ export const generateRespondElement = (
   const element = document.createElement("form") as HTMLFormElement;
   element.classList.add("comment__container", "respond");
 
-  const isCurrentUser = currentUser.username == comment?.user.username;
   const atUsername = `@${comment?.user.username}`;
 
   element.innerHTML = `
@@ -16,7 +15,7 @@ export const generateRespondElement = (
     class="respond__textarea"
     name="text"
     placeholder="Add a comment..."
-  >${type === "Reply" ? atUsername : ""} </textarea>
+  >${type === "Reply" ? atUsername + " " : ""}</textarea>
   <img
     class="comment__user-image respond__user-image"
     src="${currentUser.image.png}"
