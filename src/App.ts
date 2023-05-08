@@ -33,33 +33,30 @@ export class App {
   currentUser: User;
   comments: CommentType[];
 
-  allCommentsEl: HTMLElement;
   respondEl: HTMLElement;
 
   constructor() {
     this.app = document.getElementById("app") as HTMLElement;
+
     this.currentUser = serverData.currentUser;
     this.comments = serverData.comments;
-
-    this.allCommentsEl = document.querySelector(".allComments") as HTMLElement;
 
     this.respondEl = generateRespondElement(this.currentUser, "Send");
     this.respondEl.addEventListener("submit", (e: Event) => {
       e.preventDefault();
-      console.log("submitt!");
       const target = e.target as HTMLFormElement;
       const text = target.text.value;
       this.addComment(text);
       target.text.value = "";
     });
 
-    this.allCommentsEl.appendChild(this.respondEl);
+    this.app.appendChild(this.respondEl);
   }
 
   render() {
     this.comments.forEach((comment) => {
       const instance = new Comment(this.currentUser, comment);
-      this.allCommentsEl.insertBefore(instance.commentEl, this.respondEl);
+      this.app.insertBefore(instance.commentEl, this.respondEl);
     });
   }
 
@@ -77,6 +74,6 @@ export class App {
 
     const instance = new Comment(this.currentUser, newComment);
     instance.commentEl.classList.add("slideDown");
-    this.allCommentsEl.insertBefore(instance.commentEl, this.respondEl);
+    this.app.insertBefore(instance.commentEl, this.respondEl);
   }
 }
