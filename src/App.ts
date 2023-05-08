@@ -46,6 +46,7 @@ export class App {
     this.respondEl = generateRespondElement(this.currentUser, "Send");
     this.respondEl.addEventListener("submit", (e: Event) => {
       e.preventDefault();
+      console.log("submitt!");
       const target = e.target as HTMLFormElement;
       const text = target.text.value;
       this.addComment(text);
@@ -76,10 +77,6 @@ export class App {
 
     const instance = new Comment(this.currentUser, newComment);
     instance.commentEl.classList.add("slideDown");
-    setTimeout(() => {
-      instance.commentEl.classList.remove("slideDown");
-    }, 500);
-
     this.allCommentsEl.insertBefore(instance.commentEl, this.respondEl);
   }
 }
