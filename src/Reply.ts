@@ -7,10 +7,11 @@ import { generateNewReply } from "../utils/generateNewReply";
 export class Reply {
   currentUser: User;
   reply: CommentType;
+  vote: -1 | 0 | 1;
+
   replyEl: HTMLElement;
   replyPanel: HTMLElement | null;
   replyContainerEl: HTMLElement;
-  vote: -1 | 0 | 1;
 
   constructor(currentUser: User, reply: CommentType) {
     this.currentUser = currentUser;
@@ -50,7 +51,15 @@ export class Reply {
           this.removeReplyPanel();
         });
       } else if (target.classList.contains("comment__delete")) {
-        (e.target as HTMLElement)?.closest(".comment")?.remove();
+        target.closest(".comment")?.remove();
+      } else if (target.classList.contains("comment__edit")) {
+        this.renderUpdatePanel();
+      } else if (target.classList.contains("update__button")) {
+        const textArea = this.replyEl.querySelector(
+          "textarea"
+        ) as HTMLTextAreaElement;
+        this.reply.content = textArea?.value || "";
+        this.renderReply();
       }
     });
   }
@@ -91,5 +100,13 @@ export class Reply {
       ).insertAdjacentElement("beforeend", instance.replyEl);
       instance.replyEl.classList.add("slideDown");
     }
+  }
+
+  renderUpdatePanel() {
+    this.replyContainerEl.innerHTML = generateCommentElements(
+      this.currentUser,
+      this.reply,
+      true
+    );
   }
 }

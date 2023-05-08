@@ -57,7 +57,15 @@ export class Comment {
           this.removeReplyPanel();
         });
       } else if (target.classList.contains("comment__delete")) {
-        (e.target as HTMLElement)?.closest(".comment")?.remove();
+        target.closest(".comment")?.remove();
+      } else if (target.classList.contains("comment__edit")) {
+        this.renderUpdatePanel();
+      } else if (target.classList.contains("update__button")) {
+        const textArea = this.commentContainerEl.querySelector(
+          "textarea"
+        ) as HTMLTextAreaElement;
+        this.comment.content = textArea?.value || "";
+        this.renderUserComment();
       }
     });
   }
@@ -104,5 +112,13 @@ export class Comment {
 
     this.repliesContainerEl.appendChild(instance.replyEl);
     instance.replyEl.classList.add("slideDown");
+  }
+
+  renderUpdatePanel() {
+    this.commentContainerEl.innerHTML = generateCommentElements(
+      this.currentUser,
+      this.comment,
+      true
+    );
   }
 }

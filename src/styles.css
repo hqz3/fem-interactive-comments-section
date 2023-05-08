@@ -242,3 +242,7 @@ button {
   margin-left: auto;
   width: 95%;
 }
+
+.edit__textarea {
+  margin: 2rem 0;
+}
