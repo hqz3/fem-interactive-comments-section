@@ -2,7 +2,8 @@ import { User, CommentType } from "../src/App";
 
 export const generateCommentElements = (
   currentUser: User,
-  comment: CommentType
+  comment: CommentType,
+  isEditing: boolean = false
 ) => {
   const isCurrentUser = currentUser.username === comment.user.username;
 
@@ -32,6 +33,17 @@ export const generateCommentElements = (
       <button class="comment__reply-button" aria-label="Reply">Reply</button>
     </div>`;
 
+  const commentText = `<p class="comment__text">${comment.content}</p>`;
+
+  const editTextarea = `
+  <textarea
+    class="respond__textarea edit__textarea"
+    name="text"
+    placeholder="Add a comment...">${comment.content}</textarea>
+  `;
+
+  const updateButton = `<button class="respond__button update__button" type="submit" aria-label=Update>Update</button>`;
+
   return `
     <div class="comment__user">
       <img
@@ -43,14 +55,13 @@ export const generateCommentElements = (
       ${isCurrentUser ? youSpan : ""}
       <span class="comment__createdAt">${comment.createdAt}</span>
     </div>
-    <p class="comment__text">${comment.content}</p>
+    ${isEditing ? editTextarea : commentText}
     <div class="comment__vote">
       <button class="vote__upvote" aria-label="Upvote">+</button>
-      <span class="vote__score" aria-label="Score">
-        ${comment.score}
-      </span>
+      <span class="vote__score" aria-label="Score">${comment.score}</span>
       <button class="vote__downvote" aria-label="Downvote">-</button>
     </div>
-    ${isCurrentUser ? userOptions : userReplyButton}
+    ${!isEditing ? (isCurrentUser ? userOptions : userReplyButton) : ""}
+    ${isEditing ? updateButton : ""}
   `;
 };
