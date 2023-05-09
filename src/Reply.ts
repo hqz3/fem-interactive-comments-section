@@ -153,7 +153,7 @@ export class Reply {
 
   hideDeleteModal() {
     const modalEl = document.querySelector(".modal") as HTMLElement;
-    modalEl.classList.add("fade--out");
+    modalEl.classList.add("fadeOut");
     modalEl.addEventListener("animationend", () => {
       modalEl.remove();
     });
