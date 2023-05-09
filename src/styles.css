@@ -39,6 +39,7 @@ body {
   width: 100%;
 
   padding: 2rem;
+  word-wrap: break-word;
 }
 
 #app {
@@ -246,7 +247,7 @@ button {
 }
 
 .replies__container {
-  border-left: 1px solid var(--dark-blue);
+  border-left: 1px solid var(--light-grayish-blue);
   margin-left: auto;
   width: 95%;
 }
@@ -283,7 +284,7 @@ button {
   }
 }
 
-.fade--out {
+.fadeOut {
   animation: fadeOut 0.5s;
 }
 
@@ -347,4 +348,58 @@ button {
 
 .delete__yes {
   background-color: var(--soft-red);
+}
+
+@media (min-width: 769px) {
+  .comment__container {
+    column-gap: 2rem;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+  }
+  .comment__vote {
+    align-self: flex-start;
+    flex-direction: column;
+    grid-column: 1/2;
+    grid-row: 1/-1;
+  }
+
+  .comment__user {
+    grid-column: 2/-1;
+    grid-row: 1/2;
+    margin: 0;
+    padding: 0;
+  }
+
+  .comment__text {
+    grid-column: 2/-1;
+  }
+
+  .comment__options,
+  .comment__reply {
+    grid-column: 2/-1;
+    grid-row: 1/2;
+  }
+
+  .respond {
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: 1fr;
+  }
+
+  .respond > .comment__user-image {
+    align-self: flex-start;
+    grid-row: 1/-1;
+  }
+
+  .respond__textarea {
+    grid-column: 2/3;
+  }
+
+  .respond__button {
+    align-self: flex-start;
+    grid-column: 3/-1;
+  }
+
+  .update__button {
+    align-self: center;
+  }
 }
