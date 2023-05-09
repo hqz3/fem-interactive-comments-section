@@ -42,14 +42,7 @@ export class Reply {
         this.renderReply();
       } else if (target.classList.contains("comment__reply")) {
         if (this.replyPanel) return this.removeReplyPanel();
-
-        const replyPanel = this.showReplyPanel();
-        replyPanel.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const text = (e.target as HTMLFormElement).text.value;
-          this.addSubReply(text);
-          this.removeReplyPanel();
-        });
+        this.showReplyPanel();
       } else if (target.classList.contains("comment__delete")) {
         const commentEl = target.closest(".comment") as HTMLElement;
         this.showDeleteModal(commentEl);
@@ -80,13 +73,28 @@ export class Reply {
     );
     this.replyPanel.classList.add("slideDown");
     this.replyContainerEl.insertAdjacentElement("afterend", this.replyPanel);
-    return this.replyPanel;
+
+    // Add a new reply
+    this.replyPanel.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const text = (e.target as HTMLFormElement).text.value;
+      this.addSubReply(text);
+      this.removeReplyPanel(true);
+    });
   }
 
-  removeReplyPanel() {
-    if (this.replyPanel) {
-      this.replyPanel.remove();
-      this.replyPanel = null;
+  removeReplyPanel(isSubmit: boolean = false) {
+    if (this.replyPanel instanceof HTMLElement) {
+      if (isSubmit) {
+        this.replyPanel.remove();
+        this.replyPanel = null;
+      } else {
+        this.replyPanel.classList.add("slideUp");
+        this.replyPanel.addEventListener("animationend", () => {
+          this.replyPanel?.remove();
+          this.replyPanel = null;
+        });
+      }
     }
   }
 
@@ -111,6 +119,11 @@ export class Reply {
     );
   }
 
+  removeComment(commentEl: HTMLElement) {
+    commentEl.classList.add("slideUp");
+    commentEl.addEventListener("animationend", () => commentEl.remove());
+  }
+
   showDeleteModal(commentEl: HTMLElement) {
     const app = document.querySelector("#app");
     const modalTemplate = document.querySelector(
@@ -126,7 +139,7 @@ export class Reply {
     modalEl?.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
       if (target.classList.contains("delete__yes")) {
-        commentEl.remove();
+        this.removeComment(commentEl);
         this.hideDeleteModal();
       } else if (target.classList.contains("delete__no")) {
         this.hideDeleteModal();
