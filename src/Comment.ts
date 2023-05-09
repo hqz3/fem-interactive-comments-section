@@ -36,22 +36,17 @@ export class Comment {
 
       const target = e.target as HTMLElement;
       if (target.classList.contains("vote__upvote") && this.vote <= 0) {
-        this.comment.score += 1;
-        this.vote += 1;
-        this.renderUserComment();
+        this.handleVote(1);
       } else if (
         target.classList.contains("vote__downvote") &&
         this.vote >= 0
       ) {
-        this.comment.score -= 1;
-        this.vote -= 1;
-        this.renderUserComment();
+        this.handleVote(-1);
       } else if (target.classList.contains("comment__reply")) {
         if (this.replyPanel) return this.removeReplyPanel();
         this.showReplyPanel();
       } else if (target.classList.contains("comment__delete")) {
-        const commentEl = target.closest(".comment") as HTMLElement;
-        this.showDeleteModal(commentEl);
+        this.showDeleteModal(target);
       } else if (target.classList.contains("comment__edit")) {
         this.renderUpdatePanel();
       } else if (target.classList.contains("update__button")) {
@@ -76,6 +71,12 @@ export class Comment {
       this.currentUser,
       this.comment
     );
+  }
+
+  handleVote(score: number) {
+    this.comment.score += score;
+    this.vote += score;
+    this.renderUserComment();
   }
 
   showReplyPanel() {
@@ -136,7 +137,8 @@ export class Comment {
     commentEl.addEventListener("animationend", () => commentEl.remove());
   }
 
-  showDeleteModal(commentEl: HTMLElement) {
+  showDeleteModal(target: HTMLElement) {
+    const commentEl = target.closest(".comment") as HTMLElement;
     const app = document.querySelector("#app");
     const modalTemplate = document.querySelector(
       "template"

@@ -27,25 +27,20 @@ export class Reply {
 
     this.replyContainerEl.addEventListener("click", (e: Event) => {
       e.stopPropagation();
-
       const target = e.target as HTMLElement;
+
       if (target.classList.contains("vote__upvote") && this.vote <= 0) {
-        this.reply.score += 1;
-        this.vote += 1;
-        this.renderReply();
+        this.handleVote(1);
       } else if (
         target.classList.contains("vote__downvote") &&
         this.vote >= 0
       ) {
-        this.reply.score -= 1;
-        this.vote -= 1;
-        this.renderReply();
+        this.handleVote(-1);
       } else if (target.classList.contains("comment__reply")) {
         if (this.replyPanel) return this.removeReplyPanel();
         this.showReplyPanel();
       } else if (target.classList.contains("comment__delete")) {
-        const commentEl = target.closest(".comment") as HTMLElement;
-        this.showDeleteModal(commentEl);
+        this.showDeleteModal(target);
       } else if (target.classList.contains("comment__edit")) {
         this.renderUpdatePanel();
       } else if (target.classList.contains("update__button")) {
@@ -63,6 +58,12 @@ export class Reply {
       this.currentUser,
       this.reply
     );
+  }
+
+  handleVote(score: number) {
+    this.reply.score += score;
+    this.vote += score;
+    this.renderReply();
   }
 
   showReplyPanel() {
@@ -124,7 +125,8 @@ export class Reply {
     commentEl.addEventListener("animationend", () => commentEl.remove());
   }
 
-  showDeleteModal(commentEl: HTMLElement) {
+  showDeleteModal(target: HTMLElement) {
+    const commentEl = target.closest(".comment") as HTMLElement;
     const app = document.querySelector("#app");
     const modalTemplate = document.querySelector(
       "template"
