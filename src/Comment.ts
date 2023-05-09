@@ -57,7 +57,8 @@ export class Comment {
           this.removeReplyPanel();
         });
       } else if (target.classList.contains("comment__delete")) {
-        target.closest(".comment")?.remove();
+        const commentEl = target.closest(".comment") as HTMLElement;
+        this.showDeleteModal(commentEl);
       } else if (target.classList.contains("comment__edit")) {
         this.renderUpdatePanel();
       } else if (target.classList.contains("update__button")) {
@@ -120,5 +121,38 @@ export class Comment {
       this.comment,
       true
     );
+  }
+
+  showDeleteModal(commentEl: HTMLElement) {
+    const app = document.querySelector("#app");
+    const modalTemplate = document.querySelector(
+      "template"
+    ) as HTMLTemplateElement;
+
+    const clone = document.importNode(
+      modalTemplate.content,
+      true
+    ) as DocumentFragment;
+
+    const modalEl = clone.querySelector(".modal") as HTMLElement;
+    modalEl?.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      if (target.classList.contains("delete__yes")) {
+        commentEl.remove();
+        this.hideDeleteModal();
+      } else if (target.classList.contains("delete__no")) {
+        this.hideDeleteModal();
+      }
+    });
+
+    app?.appendChild(modalEl);
+  }
+
+  hideDeleteModal() {
+    const modalEl = document.querySelector(".modal") as HTMLElement;
+    modalEl.classList.add("fade--out");
+    modalEl.addEventListener("animationend", () => {
+      modalEl.remove();
+    });
   }
 }

@@ -36,13 +36,13 @@ body {
   justify-content: center;
 
   min-height: 100vh;
-  min-width: 100vw;
+  width: 100%;
+
   padding: 2rem;
 }
 
 #app {
   font-size: 1.6rem;
-  height: 100%;
   max-width: 75rem;
 }
 
@@ -52,10 +52,6 @@ button {
   cursor: pointer;
   font-family: inherit;
   font-size: 1.6rem;
-}
-
-.allComments {
-  color: var(--grayish-blue);
 }
 
 .comment {
@@ -83,6 +79,7 @@ button {
 .comment__container {
   background-color: var(--white);
   border-radius: var(--border-radius);
+  color: var(--grayish-blue);
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -196,6 +193,10 @@ button {
   filter: opacity(50%);
 }
 
+.respond {
+  margin-bottom: 0;
+}
+
 .respond__textarea {
   border-radius: var(--border-radius);
   border: 1px solid var(--light-gray);
@@ -236,6 +237,8 @@ button {
 
 .replies__container {
   border-left: 1px solid var(--dark-blue);
+  margin-left: auto;
+  width: 95%;
 }
 
 .reply {
@@ -245,4 +248,93 @@ button {
 
 .edit__textarea {
   margin: 2rem 0;
+}
+
+/* Delete modal */
+.modal {
+  background-color: rgba(0, 0, 0, 0.4);
+  height: 100vh;
+  width: 100vw;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  z-index: 20;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade--out {
+  animation: fadeOut 0.5s;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.modal--hidden {
+  display: none;
+}
+
+.delete__modal {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  height: 22.5rem;
+  max-width: 40rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+
+  padding: 2.75rem;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.delete__text {
+  color: var(--grayish-blue);
+  line-height: 2.4rem;
+}
+
+.delete__options {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.delete__options > button {
+  border-radius: var(--border-radius);
+  color: var(--white);
+  padding: 1.25rem 3rem;
+  text-transform: uppercase;
+}
+
+.delete__options > button:hover {
+  filter: brightness(90%);
+}
+
+.delete__no {
+  background-color: var(--grayish-blue);
+}
+
+.delete__yes {
+  background-color: var(--soft-red);
 }
