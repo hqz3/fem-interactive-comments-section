@@ -2,7 +2,7 @@ import { CommentType, User } from "../src/App";
 
 export const generateRespondElement = (
   currentUser: User,
-  type: "Send" | "Reply" | "Update",
+  type: "Send" | "Reply",
   comment?: CommentType | null
 ) => {
   const element = document.createElement("form") as HTMLFormElement;
