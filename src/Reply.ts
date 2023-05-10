@@ -56,7 +56,8 @@ export class Reply {
   renderReply() {
     this.replyContainerEl.innerHTML = generateCommentElements(
       this.currentUser,
-      this.reply
+      this.reply,
+      { isReply: true }
     );
   }
 
@@ -101,7 +102,17 @@ export class Reply {
 
   addSubReply(reply: string) {
     if (!reply.length) return;
-    const newReply = generateNewReply(this.currentUser, reply);
+
+    // Remove @username from the reply
+    if (reply[0] == "@") {
+      reply = reply.slice(reply.indexOf(" ") + 1);
+    }
+
+    const newReply = generateNewReply(
+      this.currentUser,
+      reply,
+      this.reply.user.username
+    );
     const instance = new Reply(this.currentUser, newReply);
 
     if (this.replyEl.closest(".replies__container")) {
@@ -116,7 +127,7 @@ export class Reply {
     this.replyContainerEl.innerHTML = generateCommentElements(
       this.currentUser,
       this.reply,
-      true
+      { isEditing: true }
     );
   }
 

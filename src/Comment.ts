@@ -117,7 +117,17 @@ export class Comment {
 
   addReply(reply: string) {
     if (!reply.length) return;
-    const newReply = generateNewReply(this.currentUser, reply);
+
+    // Remove @username from the reply
+    if (reply[0] == "@") {
+      reply = reply.slice(reply.indexOf(" ") + 1);
+    }
+
+    const newReply = generateNewReply(
+      this.currentUser,
+      reply,
+      this.comment.user.username
+    );
     const instance = new Reply(this.currentUser, newReply);
 
     this.repliesContainerEl.appendChild(instance.replyEl);
@@ -128,7 +138,7 @@ export class Comment {
     this.commentContainerEl.innerHTML = generateCommentElements(
       this.currentUser,
       this.comment,
-      true
+      { isEditing: true }
     );
   }
 
