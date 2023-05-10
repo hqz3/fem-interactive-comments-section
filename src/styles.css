@@ -65,7 +65,7 @@ textarea {
   cursor: pointer;
   font-family: inherit;
   font-size: 1.6rem;
-  height: 12rem;
+  height: 9.5rem;
   line-height: 2.4rem;
   outline: none;
   padding: 1rem 2rem;
@@ -121,7 +121,7 @@ textarea:focus {
   grid-template-rows: auto 1fr auto;
 
   margin-bottom: 2rem;
-  padding: 2.5rem;
+  padding: 2rem 2.5rem;
   position: relative;
 }
 
@@ -142,7 +142,7 @@ textarea:focus {
   background-color: var(--moderate-blue);
   color: var(--white);
   font-size: 1.2rem;
-  padding: 0.2rem 0.75rem;
+  padding: 0rem 1rem;
 }
 
 .comment__user-image {
