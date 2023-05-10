@@ -1,14 +1,20 @@
 import { User, CommentType } from "../src/App";
 
+type Options = {
+  isReply?: boolean;
+  isEditing?: boolean;
+};
+
 export const generateCommentElements = (
   currentUser: User,
   comment: CommentType,
-  isEditing: boolean = false
+  options: Options = {}
 ) => {
+  const { isReply, isEditing } = options;
   const isCurrentUser = currentUser.username === comment.user.username;
 
   const youSpan = `<span class="comment__you">you</span>`;
-
+  console.log("herees");
   const userDeleteButton = `
     <div class="comment__delete">
       <img src="images/icon-delete.svg" alt="Delete" />
@@ -34,15 +40,21 @@ export const generateCommentElements = (
     </div>`;
 
   const commentText = `<p class="comment__text">${comment.content}</p>`;
+  const replyText = `
+    <p class="comment__text">
+      <span class="comment__replying-to">@${comment.replyingTo}</span> ${comment.content}
+    </p>`;
 
   const editTextarea = `
-  <textarea
-    class="respond__textarea edit__textarea"
-    name="text"
-    placeholder="Add a comment...">${comment.content}</textarea>
-  `;
+    <textarea
+      class="respond__textarea edit__textarea"
+      name="text"
+      placeholder="Add a comment...">${comment.content}</textarea>`;
 
-  const updateButton = `<button class="respond__button update__button" type="submit" aria-label=Update>Update</button>`;
+  const updateButton = `
+    <button class="respond__button update__button" type="submit" aria-label=Update>
+      Update
+    </button>`;
 
   return `
     <div class="comment__user">
@@ -55,7 +67,7 @@ export const generateCommentElements = (
       ${isCurrentUser ? youSpan : ""}
       <span class="comment__createdAt">${comment.createdAt}</span>
     </div>
-    ${isEditing ? editTextarea : commentText}
+    ${isEditing ? editTextarea : isReply ? replyText : commentText}
     <div class="comment__vote">
       <button class="vote__upvote" aria-label="Upvote">+</button>
       <span class="vote__score" aria-label="Score">${comment.score}</span>
