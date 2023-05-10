@@ -70,7 +70,7 @@ export const generateCommentElements = (
     ${isEditing ? editTextarea : isReply ? replyText : commentText}
     <div class="comment__vote">
       <button class="vote__upvote" aria-label="Upvote">+</button>
-      <span class="vote__score" aria-label="Score">${comment.score}</span>
+      <span class="vote__score">${comment.score}</span>
       <button class="vote__downvote" aria-label="Downvote">-</button>
     </div>
     ${!isEditing ? (isCurrentUser ? userOptions : userReplyButton) : ""}
