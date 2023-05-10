@@ -38,7 +38,7 @@ var w=Object.defineProperty;var C=(i,t,e)=>t in i?w(i,t,{enumerable:!0,configura
     ${s?f:n?E:_}
     <div class="comment__vote">
       <button class="vote__upvote" aria-label="Upvote">+</button>
-      <span class="vote__score" aria-label="Score">${t.score}</span>
+      <span class="vote__score">${t.score}</span>
       <button class="vote__downvote" aria-label="Downvote">-</button>
     </div>
     ${s?"":a?y:v}
