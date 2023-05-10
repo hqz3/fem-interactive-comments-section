@@ -31,10 +31,13 @@ html {
 }
 
 body {
+  color: var(--grayish-blue);
+
   display: flex;
   align-items: center;
   justify-content: center;
 
+  line-height: 2.4rem;
   min-height: 100vh;
   width: 100%;
 
@@ -112,7 +115,6 @@ textarea:focus {
 .comment__container {
   background-color: var(--white);
   border-radius: var(--border-radius);
-  color: var(--grayish-blue);
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -149,7 +151,6 @@ textarea:focus {
 
 .comment__text {
   grid-column: 1 / -1;
-  line-height: 2.4rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
@@ -237,9 +238,9 @@ textarea:focus {
 }
 
 .respond {
+  gap: 1rem;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
-  gap: 1rem;
 }
 
 .respond__textarea {
@@ -248,7 +249,7 @@ textarea:focus {
 }
 
 .respond__user-image {
-  grid-column: 1/2;
+  align-self: center;
 }
 
 .respond__button {
@@ -278,12 +279,6 @@ textarea:focus {
 .edit__textarea {
   grid-column: 1/-1;
   margin: 2rem 0;
-}
-
-.update__button {
-  grid-column: 2/3;
-  grid-row: 3/-1;
-  justify-self: end;
 }
 
 /* Delete modal */
@@ -322,26 +317,22 @@ textarea:focus {
   }
 }
 
-.modal--hidden {
-  display: none;
-}
-
 .delete__modal {
   background-color: var(--white);
   border-radius: var(--border-radius);
-  height: 22.5rem;
-  max-width: 40rem;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 2rem;
 
+  height: 22.5rem;
+  left: 50%;
+  max-width: 40rem;
   padding: 2.75rem;
 
   position: fixed;
   top: 50%;
-  left: 50%;
   transform: translate(-50%, -50%);
 }
 
@@ -350,20 +341,20 @@ textarea:focus {
   line-height: 2.4rem;
 }
 
-.delete__options {
+.delete__choices {
   display: flex;
   justify-content: center;
   gap: 2rem;
 }
 
-.delete__options > button {
+.delete__choices > button {
   border-radius: var(--border-radius);
   color: var(--white);
   padding: 1.25rem 3rem;
   text-transform: uppercase;
 }
 
-.delete__options > button:hover {
+.delete__choices > button:hover {
   filter: brightness(90%);
 }
 
@@ -392,8 +383,6 @@ textarea:focus {
   .comment__user {
     grid-column: 2/-1;
     grid-row: 1/2;
-    margin: 0;
-    padding: 0;
   }
 
   .comment__text {
