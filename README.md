@@ -10,11 +10,8 @@ This is a solution to the [Interactive comments section challenge on Frontend Me
   - [Links](#links)
 - [My process](#my-process)
   - [Built with](#built-with)
-  - [What I learned](#what-i-learned)
-  - [Continued development](#continued-development)
+  - [Notes](#notes)
   - [Useful resources](#useful-resources)
-- [Author](#author)
-- [Acknowledgments](#acknowledgments)
 
 **Note: Delete this note and update the table of contents based on what sections you keep.**
 
@@ -33,20 +30,14 @@ Users should be able to:
 
 ### Screenshot
 
-![](./screenshot.jpg)
+#### Mobile
 
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
-
-Alternatively, you can use a tool like [FireShot](https://getfireshot.com/) to take the screenshot. FireShot has a free option, so you don't need to purchase it.
-
-Then crop/optimize/edit your image however you like, add it to your project, and update the file path in the image above.
-
-**Note: Delete this note and the paragraphs above when you add your screenshot. If you prefer not to add a screenshot, feel free to remove this entire section.**
+#### Desktop
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- [Solution URL](https://your-solution-url.com)
+- [Live Site URL](https://hqz3.github.io/fem-interactive-comments-section/)
 
 ## My process
 
@@ -54,17 +45,18 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 - Semantic HTML5 markup
 - CSS custom properties
-- Flexbox
+- CSS Flexbox
 - CSS Grid
 - Mobile-first workflow
-- [React](https://reactjs.org/) - JS library
-- [Next.js](https://nextjs.org/) - React framework
-- [Styled Components](https://styled-components.com/) - For styles
-
-**Note: These are just examples. Delete this note and replace the list above with your own choices**
+- TypeScript
+- Object-oriented programming
 
 ### Notes
 
+This project was well-suited for OOP. In addition to the `App` class which initiates the application, I also created two classes, `Comment` and `Reply`, both of which are essentially the same with some slight differences. Ideally, I could have reused the `Comment` class recursively to make reply instances but the differences in their respective DOM structures made it tricky to implement. Instead, I created a `Post` parent class that extends to both the `Comment` and `Reply` subclasses.
+
+Using object inheritance helped remove a significant number of properties and methods from the child classes. Most of these properties and methods are either the same or very similar. For the latter case, adding parameters made these methods dynamically reusable. Having a single source of truth kept the code `DRY` and significantly simplified the process of reading and modifying the code.
+
 ### Useful resources
 
-- [quicktype](https://quicktype.io/) - This handy website generated all the JSON types from the data.json file.
+- [quicktype](https://quicktype.io/) - Handy tool to generate all JSON types from data.json.
