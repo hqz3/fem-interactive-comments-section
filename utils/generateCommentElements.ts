@@ -14,7 +14,7 @@ export const generateCommentElements = (
   const isCurrentUser = currentUser.username === comment.user.username;
 
   const youSpan = `<span class="comment__you">you</span>`;
-  console.log("herees");
+
   const userDeleteButton = `
     <div class="comment__delete">
       <img src="images/icon-delete.svg" alt="Delete" />
