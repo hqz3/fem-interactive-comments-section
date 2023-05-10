@@ -31,12 +31,14 @@ Users should be able to:
 ### Screenshot
 
 #### Mobile
+![localhost_5173_](https://github.com/hqz3/fem-interactive-comments-section/assets/68667158/3fffd4ec-24fd-453b-bbf5-483fb5664402)
 
 #### Desktop
+![localhost_5173_ (1)](https://github.com/hqz3/fem-interactive-comments-section/assets/68667158/27739646-29c3-42d4-a42a-b632da902237)
 
 ### Links
 
-- [Solution URL](https://your-solution-url.com)
+- [Solution URL](https://www.frontendmentor.io/solutions/mobilefirst-interactive-comments-section-w-vanilla-typescript-oop-9UhDBomzki)
 - [Live Site URL](https://hqz3.github.io/fem-interactive-comments-section/)
 
 ## My process
