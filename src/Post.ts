@@ -78,6 +78,11 @@ export class Post {
       this.comment,
       { isEditing: true }
     );
+    const textareaEl = container.querySelector(
+      "textarea"
+    ) as HTMLTextAreaElement;
+
+    textareaEl.style.height = `${textareaEl.scrollHeight}px`;
   }
 
   removeComment(commentEl: HTMLElement) {
