@@ -59,13 +59,18 @@ textarea {
   border-radius: var(--border-radius);
   border: 1px solid var(--light-gray);
   color: var(--grayish-blue);
+  cursor: pointer;
   font-family: inherit;
   font-size: 1.6rem;
-  /* height: 12rem; */
+  height: 12rem;
   line-height: 2.4rem;
   outline: none;
   padding: 1rem 2rem;
   resize: none;
+}
+
+textarea:focus {
+  outline: 1px solid var(--moderate-blue);
 }
 
 .comment {
@@ -240,9 +245,6 @@ textarea {
 .respond__textarea {
   grid-column: 1/-1;
   grid-row: 1/2;
-}
-.respond__textarea:focus {
-  outline: 1px solid var(--moderate-blue);
 }
 
 .respond__user-image {
