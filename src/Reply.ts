@@ -1,29 +1,18 @@
+import { Post } from "./Post";
 import { User, CommentType } from "./App";
-import { createElement } from "../utils/createElement";
-import { generateCommentElements } from "../utils/generateCommentElements";
-import { generateRespondElement } from "../utils/generateRespondElement";
-import { generateNewReply } from "../utils/generateNewReply";
 
-export class Reply {
-  currentUser: User;
-  reply: CommentType;
-  vote: -1 | 0 | 1;
-
+export class Reply extends Post {
   replyEl: HTMLElement;
-  replyPanel: HTMLElement | null;
   replyContainerEl: HTMLElement;
 
   constructor(currentUser: User, reply: CommentType) {
-    this.currentUser = currentUser;
-    this.reply = reply;
-    this.vote = 0;
-    this.replyPanel = null;
+    super(currentUser, reply);
 
-    this.replyEl = createElement("comment", "reply");
-    this.replyContainerEl = createElement("comment__container");
+    this.replyEl = this.createDivElement("comment", "reply");
+    this.replyContainerEl = this.createDivElement("comment__container");
+
     this.replyEl.appendChild(this.replyContainerEl);
-
-    this.renderReply();
+    this.renderComment(this.replyContainerEl, true);
 
     this.replyContainerEl.addEventListener("click", (e: Event) => {
       e.stopPropagation();
@@ -31,72 +20,42 @@ export class Reply {
 
       if (target.classList.contains("vote__upvote") && this.vote <= 0) {
         this.handleVote(1);
+        this.renderComment(this.replyContainerEl, true);
       } else if (
         target.classList.contains("vote__downvote") &&
         this.vote >= 0
       ) {
         this.handleVote(-1);
+        this.renderComment(this.replyContainerEl, true);
       } else if (target.classList.contains("comment__reply")) {
         if (this.replyPanel) return this.removeReplyPanel();
         this.showReplyPanel();
       } else if (target.classList.contains("comment__delete")) {
         this.showDeleteModal(target);
       } else if (target.classList.contains("comment__edit")) {
-        this.renderUpdatePanel();
+        this.renderUpdatePanel(this.replyContainerEl);
       } else if (target.classList.contains("update__button")) {
-        const textArea = this.replyEl.querySelector(
+        const textArea = this.replyContainerEl.querySelector(
           "textarea"
         ) as HTMLTextAreaElement;
-        this.reply.content = textArea?.value || "";
-        this.renderReply();
+        this.comment.content = textArea?.value || "";
+        this.renderComment(this.replyContainerEl, true);
       }
     });
-  }
-
-  renderReply() {
-    this.replyContainerEl.innerHTML = generateCommentElements(
-      this.currentUser,
-      this.reply,
-      { isReply: true }
-    );
-  }
-
-  handleVote(score: number) {
-    this.reply.score += score;
-    this.vote += score;
-    this.renderReply();
   }
 
   showReplyPanel() {
-    this.replyPanel = generateRespondElement(
-      this.currentUser,
-      "Reply",
-      this.reply
-    );
-    this.replyPanel.classList.add("slideDown");
-    this.replyContainerEl.insertAdjacentElement("afterend", this.replyPanel);
+    this.generateReplyPanel();
+    if (this.replyPanel) {
+      this.replyContainerEl.insertAdjacentElement("afterend", this.replyPanel);
 
-    // Add a new reply
-    this.replyPanel.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const text = (e.target as HTMLFormElement).text.value;
-      this.addSubReply(text);
-      this.removeReplyPanel(true);
-    });
-  }
-
-  removeReplyPanel(isSubmit: boolean = false) {
-    if (this.replyPanel instanceof HTMLElement) {
-      if (isSubmit) {
-        this.replyPanel.remove();
-        this.replyPanel = null;
-      } else {
-        this.replyPanel.classList.add("slideUp");
-        this.replyPanel.addEventListener("animationend", () => {
-          this.replyPanel?.remove();
-          this.replyPanel = null;
-        });
-      }
+      // Add a new reply
+      this.replyPanel.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const text = (e.target as HTMLFormElement).text.value;
+        this.addSubReply(text);
+        this.removeReplyPanel(true);
+      });
     }
   }
 
@@ -108,11 +67,7 @@ export class Reply {
       reply = reply.slice(reply.indexOf(" ") + 1);
     }
 
-    const newReply = generateNewReply(
-      this.currentUser,
-      reply,
-      this.reply.user.username
-    );
+    const newReply = this.generateNewReply(reply, this.comment.user.username);
     const instance = new Reply(this.currentUser, newReply);
 
     if (this.replyEl.closest(".replies__container")) {
@@ -121,52 +76,5 @@ export class Reply {
       ).insertAdjacentElement("beforeend", instance.replyEl);
       instance.replyEl.classList.add("slideDown");
     }
-  }
-
-  renderUpdatePanel() {
-    this.replyContainerEl.innerHTML = generateCommentElements(
-      this.currentUser,
-      this.reply,
-      { isEditing: true }
-    );
-  }
-
-  removeComment(commentEl: HTMLElement) {
-    commentEl.classList.add("slideUp");
-    commentEl.addEventListener("animationend", () => commentEl.remove());
-  }
-
-  showDeleteModal(target: HTMLElement) {
-    const commentEl = target.closest(".comment") as HTMLElement;
-    const app = document.querySelector("#app");
-    const modalTemplate = document.querySelector(
-      "template"
-    ) as HTMLTemplateElement;
-
-    const clone = document.importNode(
-      modalTemplate.content,
-      true
-    ) as DocumentFragment;
-
-    const modalEl = clone.querySelector(".modal") as HTMLElement;
-    modalEl?.addEventListener("click", (e) => {
-      const target = e.target as HTMLElement;
-      if (target.classList.contains("delete__yes")) {
-        this.removeComment(commentEl);
-        this.hideDeleteModal();
-      } else if (target.classList.contains("delete__no")) {
-        this.hideDeleteModal();
-      }
-    });
-
-    app?.appendChild(modalEl);
-  }
-
-  hideDeleteModal() {
-    const modalEl = document.querySelector(".modal") as HTMLElement;
-    modalEl.classList.add("fadeOut");
-    modalEl.addEventListener("animationend", () => {
-      modalEl.remove();
-    });
   }
 }
