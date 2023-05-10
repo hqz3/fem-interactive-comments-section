@@ -55,6 +55,19 @@ button {
   font-size: 1.6rem;
 }
 
+textarea {
+  border-radius: var(--border-radius);
+  border: 1px solid var(--light-gray);
+  color: var(--grayish-blue);
+  font-family: inherit;
+  font-size: 1.6rem;
+  /* height: 12rem; */
+  line-height: 2.4rem;
+  outline: none;
+  padding: 1rem 2rem;
+  resize: none;
+}
+
 .comment {
   position: relative;
   z-index: 0;
@@ -98,7 +111,7 @@ button {
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto 1fr auto;
 
   margin-bottom: 2rem;
   padding: 2.5rem;
@@ -148,6 +161,9 @@ button {
   display: flex;
   align-items: center;
   justify-self: start;
+
+  grid-column: 1/2;
+  grid-row: 3/-1;
 }
 
 .vote__upvote,
@@ -216,24 +232,14 @@ button {
 }
 
 .respond {
-  align-items: center;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
   gap: 1rem;
 }
 
 .respond__textarea {
-  border-radius: var(--border-radius);
-  border: 1px solid var(--light-gray);
-  font-family: inherit;
-  font-size: 1.6rem;
-
   grid-column: 1/-1;
   grid-row: 1/2;
-
-  height: 9rem;
-  outline: none;
-  padding: 1rem 2rem;
-  resize: none;
-  width: 100%;
 }
 .respond__textarea:focus {
   outline: 1px solid var(--moderate-blue);
@@ -241,18 +247,13 @@ button {
 
 .respond__user-image {
   grid-column: 1/2;
-  grid-row: 2/-1;
 }
 
 .respond__button {
   background-color: var(--moderate-blue);
   border-radius: var(--border-radius);
   color: var(--white);
-
-  justify-self: end;
-  grid-row: 2/-1;
-  grid-column: 2/-1;
-
+  margin-left: auto;
   padding: 1.5rem 3rem;
   text-transform: uppercase;
   transition: filter var(--transition-duration);
@@ -273,7 +274,14 @@ button {
 }
 
 .edit__textarea {
+  grid-column: 1/-1;
   margin: 2rem 0;
+}
+
+.update__button {
+  grid-column: 2/3;
+  grid-row: 3/-1;
+  justify-self: end;
 }
 
 /* Delete modal */
@@ -371,6 +379,7 @@ button {
     grid-template-columns: auto 1fr;
     grid-template-rows: auto 1fr;
   }
+
   .comment__vote {
     align-self: flex-start;
     flex-direction: column;
@@ -387,13 +396,19 @@ button {
 
   .comment__text {
     grid-column: 2/-1;
+    grid-row: 2/-1;
     margin-bottom: 0;
+    overflow: auto;
   }
 
   .comment__options,
   .comment__reply {
     grid-column: 2/-1;
     grid-row: 1/2;
+  }
+
+  .edit__textarea {
+    grid-column: 2/-1;
   }
 
   .respond {
@@ -418,6 +433,7 @@ button {
   }
 
   .update__button {
-    align-self: center;
+    grid-column: 2/-1;
+    grid-row: 3/-1;
   }
 }

@@ -47,7 +47,7 @@ export const generateCommentElements = (
 
   const editTextarea = `
     <textarea
-      class="respond__textarea edit__textarea"
+      class="edit__textarea"
       name="text"
       placeholder="Add a comment...">${comment.content}</textarea>`;
 
